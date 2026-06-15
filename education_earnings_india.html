@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Does Education Increase Earnings in India?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: rgba(255,255,255,0.08);
+    --border-accent: rgba(99,102,241,0.4);
+    --text: #f0f0f8;
+    --text2: #9090a8;
+    --text3: #606078;
+    --accent: #6366f1;
+    --accent2: #818cf8;
+    --accent-glow: rgba(99,102,241,0.15);
+    --teal: #2dd4bf;
+    --amber: #f59e0b;
+    --rose: #f43f5e;
+    --green: #22c55e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--accent2);
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: 13px; color: var(--text2); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-linkedin {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500; color: var(--accent2);
+    text-decoration: none; padding: 6px 14px;
+    border: 1px solid var(--border-accent);
+    border-radius: 20px; transition: all 0.2s;
+  }
+  .nav-linkedin:hover { background: var(--accent-glow); }
+
+  /* HERO */
+  .hero {
+    padding: 140px 2rem 80px;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; color: var(--accent2);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--border-accent);
+    padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 2rem; background: var(--accent-glow);
+  }
+  .hero-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700; line-height: 1.15;
+    color: var(--text); margin-bottom: 1.5rem;
+  }
+  .hero h1 span { color: var(--accent2); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--text2);
+    max-width: 600px; margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem;
+    font-size: 13px; color: var(--text3);
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+  .hero-meta strong { color: var(--text2); }
+
+  /* STAT BAND */
+  .stat-band {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 2.5rem 2rem;
+    margin: 0;
+  }
+  .stat-grid {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0;
+  }
+  .stat-item {
+    text-align: center; padding: 0 2rem;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--accent2); display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px; color: var(--text3);
+    margin-top: 6px; display: block;
+    letter-spacing: 0.03em;
+  }
+
+  /* SECTION */
+  section { padding: 80px 2rem; max-width: 900px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; font-weight: 600; color: var(--accent);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 0.75rem; display: block;
+  }
+  section h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.75rem; font-weight: 700;
+    color: var(--text); margin-bottom: 1.25rem;
+  }
+  section p { color: var(--text2); line-height: 1.75; margin-bottom: 1rem; }
+
+  /* CHART SECTION */
+  .chart-wrapper {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 2.5rem;
+  }
+  .chart-title {
+    font-size: 13px; font-weight: 500; color: var(--text2);
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;
+  }
+  .chart-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 2px; }
+  .chart-area { position: relative; width: 100%; height: 320px; }
+
+  /* REGRESSION SECTION */
+  .reg-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem; margin-top: 2rem;
+  }
+  .reg-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .reg-card:hover { border-color: var(--border-accent); }
+  .reg-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .reg-card.m1::before { background: var(--text3); }
+  .reg-card.m2::before { background: var(--teal); }
+  .reg-card.m3::before { background: var(--accent); }
+  .reg-model {
+    font-size: 11px; font-weight: 600; color: var(--text3);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .reg-card.m2 .reg-model { color: var(--teal); }
+  .reg-card.m3 .reg-model { color: var(--accent2); }
+  .coeff-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .coeff-row:last-of-type { border-bottom: none; }
+  .coeff-label { font-size: 13px; color: var(--text2); }
+  .coeff-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem; font-weight: 600; color: var(--text);
+  }
+  .coeff-value.highlight { color: var(--accent2); }
+  .coeff-value.teal { color: var(--teal); }
+  .coeff-value.neg { color: var(--rose); }
+  .coeff-sig {
+    font-size: 10px; color: var(--green);
+    background: rgba(34,197,94,0.1);
+    padding: 2px 6px; border-radius: 4px;
+    margin-left: 6px;
+  }
+  .r2-bar-wrap { margin-top: 1.25rem; }
+  .r2-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .r2-track {
+    height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden;
+  }
+  .r2-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .m1 .r2-fill { background: var(--text3); width: 16.4%; }
+  .m2 .r2-fill { background: var(--teal); width: 19.8%; }
+  .m3 .r2-fill { background: var(--accent); width: 27.7%; }
+
+  /* KEY FINDINGS */
+  .finding-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .finding {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .finding:hover { border-color: var(--border-accent); }
+  .finding-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0; margin-top: 2px;
+  }
+  .finding-icon.a { background: rgba(99,102,241,0.15); }
+  .finding-icon.b { background: rgba(45,212,191,0.15); }
+  .finding-icon.c { background: rgba(245,158,11,0.15); }
+  .finding-icon.d { background: rgba(244,63,94,0.15); }
+  .finding-text strong {
+    display: block; font-size: 14px; font-weight: 600;
+    color: var(--text); margin-bottom: 4px;
+  }
+  .finding-text p { font-size: 13px; color: var(--text2); margin: 0; line-height: 1.6; }
+
+  /* METHODOLOGY */
+  .method-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem; margin-top: 2rem;
+  }
+  .method-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem;
+  }
+  .method-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--bg3);
+    -webkit-text-stroke: 1px var(--border-accent);
+    line-height: 1; margin-bottom: 0.75rem;
+  }
+  .method-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .method-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+
+  /* LIMITATIONS */
+  .limit-list { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .limit-list li {
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 14px; color: var(--text2); line-height: 1.6;
+  }
+  .limit-list li::before {
+    content: '—'; color: var(--text3); flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+  }
+  .footer-inner { max-width: 900px; margin: 0 auto; }
+  footer p { font-size: 13px; color: var(--text3); }
+  footer a { color: var(--accent2); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* DIVIDER */
+  .section-divider {
+    max-width: 900px; margin: 0 auto;
+    border: none; border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
+    .stat-item:nth-child(even) { border-left: 1px solid var(--border); }
+    .stat-item:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">Research · STATA</span>
+  <div class="nav-links">
+    <a href="#findings">Findings</a>
+    <a href="#regression">Regression</a>
+    <a href="#methodology">Methodology</a>
+  </div>
+  <a href="https://www.linkedin.com/in/mansi-khurana-107442258" class="nav-linkedin" target="_blank">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    LinkedIn
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span class="hero-dot"></span>
+    Econometrics · PLFS 2017–18 · STATA
+  </div>
+  <h1>Does Education Increase<br><span>Earnings in India?</span></h1>
+  <p class="hero-sub">An empirical analysis of the relationship between educational attainment and monthly earnings among regular salaried workers using regression modelling.</p>
+  <div class="hero-meta">
+    <span>📊 <strong>Data Source:</strong> Periodic Labour Force Survey (PLFS) 2017–18</span>
+    <span>🔧 <strong>Tool:</strong> STATA</span>
+    <span>📐 <strong>Method:</strong> OLS Regression</span>
+  </div>
+</div>
+
+<!-- STAT BAND -->
+<div class="stat-band">
+  <div class="stat-grid">
+    <div class="stat-item">
+      <span class="stat-num">433K</span>
+      <span class="stat-label">Total Observations</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">42,794</span>
+      <span class="stat-label">Salaried Workers Analysed</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">₹1,474</span>
+      <span class="stat-label">Return per Year of Education</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">27.7%</span>
+      <span class="stat-label">R² in Final Model</span>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <span class="section-label">Introduction</span>
+  <h2>Why Education Matters for Earnings</h2>
+  <p>Education is widely regarded as one of the most important determinants of earnings. According to Human Capital Theory, individuals invest in education to acquire skills and knowledge that increase their productivity and earning potential — and employers reward this with higher wages.</p>
+  <p>This study tests that hypothesis empirically using India's PLFS 2017–18 dataset, isolating the effect of education while controlling for age and gender.</p>
+</section>
+
+<hr class="section-divider">
+
+<!-- CHART -->
+<section id="findings">
+  <span class="section-label">Descriptive Evidence</span>
+  <h2>Earnings Rise Steadily with Education</h2>
+  <p>A clear upward pattern emerges when average monthly earnings are plotted across educational levels — from ₹7,258 for non-literate workers all the way to ₹29,774 for postgraduates.</p>
+
+  <div class="chart-wrapper">
+    <div class="chart-title">
+      <span class="chart-dot"></span>
+      Average Monthly Earnings (₹) by Education Level
+    </div>
+    <div class="chart-area">
+      <canvas id="earningsChart" role="img" aria-label="Bar chart showing average monthly earnings increasing across education levels from non-literate at Rs 7258 to postgraduate at Rs 29774">Average monthly earnings by education: Non-literate 7258, Below Primary 8100, Primary 9800, Middle 11200, Secondary 14500, Higher Secondary 17200, Diploma 21000, Graduate 24300, Postgraduate 29774.</canvas>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- REGRESSION -->
+<section id="regression">
+  <span class="section-label">Regression Results</span>
+  <h2>Controlling for Age & Gender Confirms the Effect</h2>
+  <p>Three OLS models were estimated sequentially, adding control variables to isolate the true return to education. Each additional year of schooling consistently predicts higher monthly earnings across all specifications.</p>
+
+  <div class="reg-grid">
+
+    <!-- Model 1 -->
+    <div class="reg-card m1">
+      <div class="reg-model">Model 1 · Education Only</div>
+      <div class="coeff-row">
+        <span class="coeff-label">Education (per year)</span>
+        <span class="coeff-value">₹1,340 <span class="coeff-sig">p&lt;0.01</span></span>
+      </div>
+      <div class="coeff-row">
+        <span class="coeff-label">Controls</span>
+        <span class="coeff-value" style="font-size:12px; color: var(--text3);">None</span>
+      </div>
+      <div class="r2-bar-wrap">
+        <div class="r2-label"><span>R-squared</span><span>0.164</span></div>
+        <div class="r2-track"><div class="r2-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Model 2 -->
+    <div class="reg-card m2">
+      <div class="reg-model">Model 2 · + Age</div>
+      <div class="coeff-row">
+        <span class="coeff-label">Education (per year)</span>
+        <span class="coeff-value teal">₹1,483 <span class="coeff-sig">p&lt;0.01</span></span>
+      </div>
+      <div class="coeff-row">
+        <span class="coeff-label">Age</span>
+        <span class="coeff-value teal">Positive <span class="coeff-sig">p&lt;0.01</span></span>
+      </div>
+      <div class="r2-bar-wrap">
+        <div class="r2-label"><span>R-squared</span><span>0.198</span></div>
+        <div class="r2-track"><div class="r2-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Model 3 -->
+    <div class="reg-card m3">
+      <div class="reg-model">Model 3 · + Gender (Final)</div>
+      <div class="coeff-row">
+        <span class="coeff-label">Education (per year)</span>
+        <span class="coeff-value highlight">₹1,474 <span class="coeff-sig">p&lt;0.01</span></span>
+      </div>
+      <div class="coeff-row">
+        <span class="coeff-label">Female vs Male</span>
+        <span class="coeff-value neg">−₹3,333 <span class="coeff-sig">p&lt;0.01</span></span>
+      </div>
+      <div class="r2-bar-wrap">
+        <div class="r2-label"><span>R-squared</span><span>0.277</span></div>
+        <div class="r2-track"><div class="r2-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- KEY FINDINGS -->
+<section>
+  <span class="section-label">Key Findings</span>
+  <h2>What the Data Tells Us</h2>
+  <div class="finding-list">
+    <div class="finding">
+      <div class="finding-icon a">📈</div>
+      <div class="finding-text">
+        <strong>Education pays — consistently</strong>
+        <p>Each additional year of formal education is associated with ₹1,474 more in monthly earnings, even after controlling for age and gender. The effect is robust across all three model specifications.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-icon b">🎓</div>
+      <div class="finding-text">
+        <strong>4× earnings gap between non-literate and postgraduate</strong>
+        <p>Workers with no literacy earn ₹7,258/month on average. Postgraduates earn ₹29,774 — a 310% premium, underlining the immense labour market value of higher education in India.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-icon c">👤</div>
+      <div class="finding-text">
+        <strong>Age proxies experience and rewards it</strong>
+        <p>After including age as a proxy for work experience in Model 2, the education coefficient actually increases from ₹1,340 to ₹1,483, suggesting age partially confounded the raw estimate.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-icon d">⚠️</div>
+      <div class="finding-text">
+        <strong>Gender gap persists even after controlling for education</strong>
+        <p>Female workers earn ₹3,333 less per month than male workers with the same education and age, indicating structural wage disparities beyond human capital differences.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <span class="section-label">Methodology</span>
+  <h2>How the Analysis Was Built</h2>
+  <p>The study follows a sequential OLS regression approach, progressively adding control variables to decompose the effect of education on earnings and test for omitted variable bias.</p>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-num">01</div>
+      <div class="method-title">Data Filtering</div>
+      <div class="method-desc">Filtered 433K PLFS observations to 42,794 regular salaried workers using STATA's <code>keep if</code> command.</div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">02</div>
+      <div class="method-title">Descriptive Analysis</div>
+      <div class="method-desc">Computed average earnings by education category using <code>tabstat</code> to identify raw patterns.</div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">03</div>
+      <div class="method-title">OLS Regression</div>
+      <div class="method-desc">Estimated three models using <code>regress</code>, adding age then gender sequentially to assess omitted variable bias.</div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">04</div>
+      <div class="method-title">Model Comparison</div>
+      <div class="method-desc">Compared coefficients and R-squared across models to evaluate explanatory power and robustness.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- LIMITATIONS -->
+<section>
+  <span class="section-label">Limitations</span>
+  <h2>What This Study Cannot Claim</h2>
+  <ul class="limit-list">
+    <li>Cross-sectional data from PLFS 2017–18 allows correlation, not causal inference. Unobservables like ability, ambition, and family background may drive both education and earnings.</li>
+    <li>Sample is restricted to regular salaried workers — findings cannot be generalised to self-employed, informal, or gig workers who form a large share of India's labour market.</li>
+    <li>Age is used as a proxy for work experience, which may not perfectly capture actual labour market tenure or on-the-job skill acquisition.</li>
+    <li>Occupation, industry, field of study, quality of institution, and urban/rural location are omitted, potentially biasing the education coefficient.</li>
+  </ul>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <p>Mansi Khurana · Econometrics Research Project · <a href="https://www.linkedin.com/in/mansi-khurana-107442258" target="_blank">Connect on LinkedIn</a> · Data: PLFS 2017–18, MoSPI, Government of India</p>
+  </div>
+</footer>
+
+<!-- CHART.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  const labels = [
+    'Non-literate', 'Below Primary', 'Primary', 'Middle',
+    'Secondary', 'Higher Sec.', 'Diploma', 'Graduate', 'Postgraduate'
+  ];
+  const data = [7258, 8100, 9800, 11200, 14500, 17200, 21000, 24300, 29774];
+
+  const ctx = document.getElementById('earningsChart').getContext('2d');
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, 320);
+  gradient.addColorStop(0, 'rgba(99,102,241,0.9)');
+  gradient.addColorStop(1, 'rgba(45,212,191,0.6)');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Avg Monthly Earnings (₹)',
+        data,
+        backgroundColor: gradient,
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a24',
+          borderColor: 'rgba(99,102,241,0.4)',
+          borderWidth: 1,
+          titleColor: '#f0f0f8',
+          bodyColor: '#9090a8',
+          padding: 12,
+          callbacks: {
+            label: ctx => '₹' + ctx.parsed.y.toLocaleString('en-IN')
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#606078', font: { size: 11 },
+            maxRotation: 35, autoSkip: false
+          },
+          border: { color: 'rgba(255,255,255,0.06)' }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#606078', font: { size: 11 },
+            callback: v => '₹' + (v/1000).toFixed(0) + 'K'
+          },
+          border: { color: 'rgba(255,255,255,0.06)' }
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
